@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <link rel="stylesheet" href="projet.css">
+    <title>Mangadex</title>
+
+    <!-- Styles CSS pour la mise en page -->
+    <style>
+        body {
+            background-color: #121212; /* Couleur de fond sombre */
+            font-family: Arial, sans-serif; /* Police utilisée */
+            color: white; /* Texte en blanc */
+            margin: 0;
+            padding: 20px;
+            text-align: center; /* Centrage du texte */
+        }
+
+        h1, h2 {
+            color: #ffdf00; /* Couleur jaune pour les titres */
+        }
+
+        .header-content {
+            padding: 20px; /* Espace autour du texte dans l'en-tête */
+        }
+
+        /* Superposition sombre pour un effet de style */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1; /* Placé derrière le contenu */
+        }
+
+        .content {
+            padding: 20px; /* Espacement autour du contenu principal */
+        }
+
+        /* Liste des personnages */
+        .character-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .character-item {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .character-item:hover {
+            transform: scale(1.05);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .character-name {
+            font-size: 1.2em;
+            color: #ffdf00; /* Couleur jaune pour le nom */
+        }
+
+        .character-manga {
+            font-size: 1em;
+            color: #ff8c00; /* Couleur orange pour le manga */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Superposition en arrière-plan pour l'effet de style -->
+    <div class="overlay"></div>
+    <div class="content"></div>
+
+    <!-- En-tête avec le titre et une description -->
+    <header>
+        <div class="header-content">
+            <h1>Bienvenue sur le Mangadex</h1>
+            <p>Découvrez vos personnages mangas préférés en un seul lieu</p>
+        </div>
+    </header>
+
+    <!-- Section principale contenant la liste des personnages -->
+    <main>
+        <h2>Les personnages</h2>
+        <div id="character-list" class="character-list">
+            <!-- Les personnages seront générés ici via JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        // Liste des personnages
+        const characters = [
+            {
+                name: 'Naruto Uzumaki',
+                manga: 'Naruto',
+                image: 'images/naruto.jpg',
+            },
+            {
+                name: 'Monkey D. Luffy',
+                manga: 'One Piece',
+                image: 'images/luffy.jpg',
+            },
+            {
+                name: 'Ichigo Kurosaki',
+                manga: 'Bleach',
+                image: 'images/ichigo.jpg',
+            },
+            // Ajoutez d'autres personnages ici
+        ];
+
+        // Fonction pour générer la liste des personnages
+        function generateCharacters() {
+            const characterList = document.getElementById('character-list');
+
+            characters.forEach(character => {
+                const characterDiv = document.createElement('div');
+                characterDiv.classList.add('character-item');
+
+                characterDiv.innerHTML = `
+                    <div class="character-image" style="background-image: url('${character.image}');"></div>
+                    <div class="character-name">${character.name}</div>
+                    <div class="character-manga">${character.manga}</div>
+                `;
+
+                // Redirection vers une page spécifique lors du clic
+                characterDiv.onclick = () => {
+                    window.location.href = `character-details.html?name=${encodeURIComponent(character.name)}`;
+                };
+
+                // Ajout de la carte du personnage à la liste
+                characterList.appendChild(characterDiv);
+            });
+        }
+
+        // Générer la liste des personnages au chargement de la page
+        window.onload = generateCharacters;
+    </script>
+
+</body>
+
+</html>

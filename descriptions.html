@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="projet.css">
+    <title>Descriptions des personnages</title>
+    <style>
+        body {
+            background-color: #121212;
+            font-family: Arial, sans-serif;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #ffdf00;
+        }
+        .character-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 40px;
+        }
+        .character-card {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            width: 300px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+            text-align: left;
+        }
+        .character-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .character-card h2 {
+            font-size: 24px;
+            color: #ffdf00;
+            margin-bottom: 10px;
+        }
+        .character-card p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        .character-card p.description {
+            margin-top: 10px;
+            text-align: justify;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #ff8c00;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .back-link:hover {
+            background-color: #ffa733;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Descriptions des personnages</h1>
+
+    <div id="character-list" class="character-container">
+        <!-- Les cartes des personnages seront insérées ici -->
+    </div>
+
+    <!-- Lien retour à la page principale -->
+    <a href="index.html" class="back-link">Retour</a>
+
+    <script>
+        // Tableau de personnages avec les détails
+        const characters = [
+            {
+                name: "Naruto Uzumaki",
+                manga: "Naruto",
+                age: "17 ans",
+                image: "naruto.jpg", // Remplace par une URL valide
+                description: "Naruto est un ninja énergique et imprévisible qui rêve de devenir Hokage. Il porte en lui le démon renard à neuf queues et doit apprendre à contrôler ses pouvoirs tout en surmontant de nombreux obstacles pour protéger son village et ses amis."
+            },
+            {
+                name: "Monkey D. Luffy",
+                manga: "One Piece",
+                age: "19 ans",
+                image: "luffy.jpg", // Remplace par une URL valide
+                description: "Luffy est le capitaine des Chapeaux de paille. Doté du pouvoir du fruit du Gum-Gum, il aspire à devenir le Roi des Pirates et à découvrir le One Piece. Son esprit libre et sa détermination inébranlable sont ses plus grandes forces."
+            },
+            {
+                name: "Saitama",
+                manga: "One Punch Man",
+                age: "25 ans",
+                image: "url_de_l'image3", // Remplace par une URL valide
+                description: "Saitama est un héros capable de vaincre n'importe quel ennemi d'un seul coup de poing. Bien que ses exploits soient extraordinaires, il s'ennuie de ne trouver aucun adversaire à sa mesure."
+            }
+        ];
+
+        // Fonction pour afficher les personnages sur la page
+        function displayCharacters() {
+            const characterList = document.getElementById('character-list');
+            
+            characters.forEach(character => {
+                const characterCard = document.createElement('div');
+                characterCard.classList.add('character-card');
+
+                characterCard.innerHTML = `
+                    <img src="${character.image}" alt="Image de ${character.name}">
+                    <h2>${character.name}</h2>
+                    <p><strong>Manga :</strong> ${character.manga}</p>
+                    <p><strong>Âge :</strong> ${character.age}</p>
+                    <p class="description">${character.description}</p>
+                `;
+
+                characterList.appendChild(characterCard);
+            });
+        }
+
+        // Appel de la fonction pour afficher les personnages
+        displayCharacters();
+    </script>
+
+</body>
+</html>

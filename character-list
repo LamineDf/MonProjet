@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <link rel="stylesheet" href="projet.css">
+    <title>Mangadex</title>
+    <style>
+        body {
+            background-color: #121212;
+            font-family: Arial, sans-serif;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffdf00;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #ffdf00;
+            margin-bottom: 10px;
+        }
+
+        .header-content {
+            padding: 20px;
+        }
+
+        .character-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .character-item {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .character-item:hover {
+            transform: scale(1.05);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .character-name {
+            font-size: 1.2em;
+            color: #ffdf00;
+        }
+
+        .character-manga {
+            font-size: 1em;
+            color: #ff8c00;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Bienvenue sur le Mangadex</h1>
+            <p>Découvrez vos personnages mangas préférés en un seul lieu</p>
+        </div>
+    </header>
+
+    <main>
+        <h2>Les personnages</h2>
+        <div id="character-list" class="character-list">
+            <!-- Les personnages seront générés ici par JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        const characters = [
+            { name: "Monkey D. Luffy", manga: "One Piece", image: "images/luffy.jpg" },
+            { name: "Naruto Uzumaki", manga: "Naruto", image: "images/naruto_uzumaki.jpg" },
+            { name: "Son Goku", manga: "Dragon Ball", image: "images/goku.jpg" },
+            { name: "Roronoa Zoro", manga: "One Piece", image: "images/zoro.jpg" },
+            { name: "Sasuke Uchiha", manga: "Naruto", image: "images/sasuke.jpg" },
+            { name: "Vegeta", manga: "Dragon Ball", image: "images/vegeta.jpg" },
+            { name: "Sakura Haruno", manga: "Naruto", image: "images/sakura.jpg" }
+        ];
+
+        // Génération de la liste des personnages
+        const characterList = document.getElementById('character-list');
+
+        characters.forEach(character => {
+            const characterDiv = document.createElement('div');
+            characterDiv.classList.add('character-item');
+
+            characterDiv.innerHTML = `
+                <div class="character-image" style="background-image: url('${character.image}');"></div>
+                <div class="character-name">${character.name}</div>
+                <div class="character-manga">${character.manga}</div>
+            `;
+
+            characterDiv.onclick = () => {
+                // Redirection vers une page de détails du personnage
+                window.location.href = `character.html?name=${encodeURIComponent(character.name)}`;
+            };
+
+            characterList.appendChild(characterDiv);
+        });
+    </script>
+</body>
+</html>

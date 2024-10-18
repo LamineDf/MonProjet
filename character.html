@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <link rel="stylesheet" href="projet.css">
+    <title>Détails du personnage</title>
+    <style>
+        /* Styles pour la page des détails */
+        body.character-page {
+            background-color: #121212;
+            font-family: Arial, sans-serif;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .character-details {
+            background-color: #1e1e1e;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 80%;
+            max-width: 850px;
+        }
+
+        .character-image {
+            width: 100%;
+            height: 450px;
+            background-size: cover;
+            background-position: 0% 30%; /*pour placer le visage du personnage au milieu du carré*/
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            color: #ffdf00;
+        }
+
+        .character-name {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .character-manga {
+            font-size: 1.2em;
+            color: #d57c0e;
+            margin-bottom: 20px;
+        }
+
+        .character-details-text {
+            font-size: 1.1em;
+        }
+
+        .back-button {
+            background-color: #c71212;
+            color: #121212;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body class="character-page">
+    <div class="character-details">
+        <!-- Contenu des détails du personnage -->
+        <div id="character-details-container">
+            <!-- Les informations du personnage seront affichées ici via JavaScript -->
+        </div>
+        <button class="back-button" onclick="goBack()">RETOUR</button>
+    </div>
+
+    <script>
+        function loadCharacterDetails() {
+            // Récupérer les détails du personnage depuis le localStorage
+            const selectedCharacter = JSON.parse(localStorage.getItem('selectedCharacter'));
+
+            if (selectedCharacter) {
+                // Générer l'affichage des détails du personnage
+                const detailsContainer = document.getElementById('character-details-container');
+                detailsContainer.innerHTML = `
+                    <div class="character-image" style="background-image: url('${selectedCharacter.image}');"></div>
+                    <h1 class="character-name">${selectedCharacter.name}</h1>
+                    <h2 class="character-manga">${selectedCharacter.manga}</h2>
+                    <p class="character-details-text">${selectedCharacter.details}</p>
+                `;
+            } else {
+                // Si aucun personnage n'a été sélectionné, rediriger vers la page d'accueil
+                window.location.href = 'index.html';
+            }
+        }
+
+        function goBack() {
+            // Rediriger vers la page d'accueil
+            window.location.href = 'index.html';
+        }
+
+        // Charger les détails du personnage au chargement de la page
+        window.onload = loadCharacterDetails;
+    </script>
+</body>
+
+</html>

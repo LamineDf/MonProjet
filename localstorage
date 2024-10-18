@@ -1,0 +1,10 @@
+const character = {
+    name: "Naruto Uzumaki",
+    manga: "Naruto",
+    age: "17 ans",
+    image: "url_de_l'image",
+    description: "Naruto est un ninja énergique et imprévisible qui rêve de devenir Hokage. Il porte en lui le démon renard à neuf queues et doit apprendre à contrôler ses pouvoirs tout en surmontant de nombreux obstacles pour protéger son village et ses amis."
+};
+
+// Stocker les données du personnage dans le localStorage
+localStorage.setItem('selectedCharacter', JSON.stringify(character));

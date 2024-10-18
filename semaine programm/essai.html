@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personnages de Manga - Icônes</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        /* Container des icônes */
+        .character-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        /* Chaque personnage en icône */
+        .character {
+            width: 120px;
+            margin: 15px;
+            text-align: center;
+            cursor: pointer;
+        }
+        /* Style de l'image circulaire */
+        .character img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+            transition: transform 0.3s;
+        }
+        .character img:hover {
+            transform: scale(1.1); /* Zoom léger au survol */
+        }
+        .character p {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+        /* Style de la modale */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Icônes des Personnages de Manga</h1>
+    <div class="character-list" id="character-list">
+        <!-- Les personnages seront générés ici par JavaScript -->
+    </div>
+
+    <!-- Modales dynamiques pour les personnages -->
+    <div id="modals-container">
+        <!-- Les modales seront générées ici par JavaScript -->
+    </div>
+
+    <script>
+        // Tableau de personnages avec leur image, manga, âge et détails
+        const characters = [
+            { name: "Monkey D. Luffy", manga: "One Piece", age: 19, details: "Capitaine de l'équipage du Chapeau de paille, rêve de devenir le Roi des Pirates.", image: "luffy.jpg" },
+            { name: "Naruto Uzumaki", manga: "Naruto", age: 17, details: "Ninja de Konoha, rêve de devenir Hokage, le plus grand ninja du village.", image: "naruto.jpg" },
+            { name: "Son Goku", manga: "Dragon Ball", age: "Inconnu (Saiyan)", details: "Guerrier Saiyan protégeant la Terre, rêve d'être le plus fort.", image: "goku.jpg" },
+            { name: "Roronoa Zoro", manga: "One Piece", age: 21, details: "Épéiste de l'équipage de Luffy, utilise trois sabres.", image: "zoro.jpg" },
+            { name: "Sasuke Uchiha", manga: "Naruto", age: 17, details: "Dernier membre du clan Uchiha, en quête de vengeance.", image: "sasuke.jpg" },
+            { name: "Vegeta", manga: "Dragon Ball", age: "Inconnu (Saiyan)", details: "Prince des Saiyans, rival et ami de Goku.", image: "vegeta.jpg" },
+            // Ajoute plus de personnages ici
+        ];
+
+        // Fonction pour générer les personnages
+        function generateCharacters() {
+            const characterList = document.getElementById('character-list');
+            const modalsContainer = document.getElementById('modals-container');
+
+            characters.forEach((character, index) => {
+                // Créer la carte du personnage
+                const characterDiv = document.createElement('div');
+                characterDiv.classList.add('character');
+                characterDiv.innerHTML = `
+                    <img src="images/${character.image}" alt="${character.name}">
+                    <p>${character.name}</p>
+                `;
+                characterDiv.onclick = () => openModal(`modal${index}`);
+                characterList.appendChild(characterDiv);
+
+                // Créer la modale du personnage
+                const modalDiv = document.createElement('div');
+                modalDiv.classList.add('modal');
+                modalDiv.id = `modal${index}`;
+                modalDiv.innerHTML = `
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('modal${index}')">&times;</span>
+                        <h2>${character.name}</h2>
+                        <p><strong>Manga:</strong> ${character.manga}</p>
+                        <p><strong>Âge:</strong> ${character.age}</p>
+                        <p><strong>Détails:</strong> ${character.details}</p>
+                    </div>
+                `;
+                modalsContainer.appendChild(modalDiv);
+            });
+        }
+
+        // Fonction pour ouvrir une modale
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        // Fonction pour fermer une modale
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Fermer la modale quand on clique en dehors de la fenêtre
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = "none";
+                }
+            }
+        }
+
+
+        // Générer les personnages et modales au chargement de la page
+        window.onload = generateCharacters;
+    </script>
+</body>
+</html>

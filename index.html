@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <link rel="stylesheet" href="projet.css">
+    <title>Mangadex</title>
+    <style>
+        /* Styles principaux */
+        body {
+            font-family: Arial, sans-serif;
+            color: #ebeae7;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: url('images/anime-city.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        h1, h2 {
+            color: #ffdf00;
+        }
+
+        .header-content {
+            padding: 20px;
+        }
+
+        /* Input de recherche */
+        #searchInput {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            width: 300px;
+            border-radius: 5px;
+            border: 2px solid #ffdf00;
+        }
+
+        /* Liste des personnages */
+        .character-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .character-item {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px solid #ffdf00; /* Contour doré */
+        }
+
+        .character-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 8px 16px rgba(255, 223, 0, 0.8);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .character-item:hover .character-image {
+            transform: scale(1.2); /* agrandissemnt sur l'image lors du passage */
+        }
+
+        .character-name, .character-manga {
+            margin: 10px 0;
+            color: #ffdf00;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Bienvenue sur le Mangadex</h1>
+            <p>Le shazam des personnages mangas</p>
+        </div>
+    </header>
+
+    <main>
+        <h2>Les personnages</h2>
+        <input type="text" id="searchInput" placeholder="Rechercher un personnage..." onkeyup="searchCharacter()">
+        <div class="character-list" id="character-list">
+            <!-- Les personnages seront générés ici par JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        const characters = [
+            { name: "Monkey D. Luffy", manga: "One Piece", age: 19,details:"Capitaine de l'équipage du Chapeau de paille, rêve de devenir le Roi des Pirates.",image: "images/luffy.png" },
+            { name: "Naruto Uzumaki", manga: "Naruto", age: 17, details: "Ninja de Konoha, rêve de devenir Hokage, le plus grand ninja du village.", image: "images/naruto.png" },
+            { name: "Son Goku", manga: "Dragon Ball", age: "Inconnu (Saiyan)", details: "Guerrier Saiyan protégeant la Terre, rêve d'être le plus fort.", image: "images/goku.png" },
+            { name: "Roronoa Zoro", manga: "One Piece", age: 21, details: "Épéiste de l'équipage de Luffy, utilise trois sabres.", image: "images/zoro.png" },
+            { name: "Sasuke Uchiha", manga: "Naruto", age: 17, details: "Dernier membre du clan Uchiha, en quête de vengeance.", image: "images/sasuke.png" },
+            { name: "Vegeta", manga: "Dragon Ball", age: "Inconnu (Saiyan)", details: "Prince des Saiyans, rival et ami de Goku.", image: "images/vegeta.png" },
+            { name: "Sakura Haruno", manga: "Naruto", age: 17, details: "Ninja de Konoha, amie de Naruto et Sasuke, spécialisée en ninjutsu médical.", image: "images/sakura.png" },
+            { name: "Natsu Dragneel", manga: "Fairy Tail", age: 17, details: "Mage de feu de la guilde Fairy Tail, cherche son père adoptif, Igneel.", image: "images/natsu.png" },
+            { name: "Lucy Heartfilia", manga: "Fairy Tail", age: 17, details: "Mage de la guilde Fairy Tail, utilise des clés stellaires pour invoquer des esprits.", image: "images/lucy.png" },
+            { name: "Gon Freecss", manga: "Hunter x Hunter", age: 12, details: "Jeune garçon avec le rêve de devenir Hunter pour retrouver son père.", image: "images/gon.png" },
+            { name: "Killua Zoldyck", manga: "Hunter x Hunter", age: 12, details: "Jeune assassin de la famille Zoldyck, ami de Gon et compétent en combat.", image: "images/killua.png" },
+            { name: "Edward Elric", manga: "Fullmetal Alchemist", age: 15, details: "Alchimiste d'État, cherche la pierre philosophale pour restaurer son corps.", image: "images/edward.png" },
+            { name: "Alphonse Elric", manga: "Fullmetal Alchemist", age: 14, details: "Frère d'Edward, dont l'âme est liée à une armure après un accident d'alchimie.", image: "images/alphonse.png" },
+            { name: "Light Yagami", manga: "Death Note", age: 17, details: "Étudiant qui trouve un carnet lui permettant de tuer quiconque en écrivant son nom.", image: "images/light.png" },
+            { name: "L", manga: "Death Note", age: 25, details: "Détective mystérieux poursuivant Light Yagami pour les meurtres commis avec le Death Note.", image: "images/l.png" },
+            { name: "Shoto Todoroki", manga: "My Hero Academia", age: 15, details: "Étudiant à l'Académie UA avec des pouvoirs de glace et de feu.", image: "images/shoto.png" },
+            { name: "Izuku Midoriya", manga: "My Hero Academia", age: 15, details: "Héros en devenir, possède le pouvoir du One For All.", image: "images/izuku.png" },
+            { name: "Kakashi Hatake", manga: "Naruto", age: 26, details: "Ninja de Konoha, connu pour son Sharingan et ses compétences en tant que leader.", image: "images/kakashi.png" },
+            { name: "Erza Scarlet", manga: "Fairy Tail", age: 19, details: "Mage de Fairy Tail avec des capacités de rééquipement, connue pour ses armures et armes.", image: "images/erza.png" },
+            { name: "Gildarts Clive", manga: "Fairy Tail", age: 30, details: "Mage de Fairy Tail, connu comme le plus puissant des mages de la guilde.", image: "images/gildarts.png" },
+            { name: "Ryuk", manga: "Death Note", age: "Inconnu", details: "Shinigami qui a laissé tomber le Death Note sur Terre.", image: "images/ryuk.png" },
+            { name: "Saitama", manga: "One Punch Man", age: 25, details: "Super-héros capable de vaincre n'importe quel adversaire en un seul coup.", image: "images/saitama.png" },
+            { name: "Genos", manga: "One Punch Man", age: 19, details: "Héros cyborg cherchant à se venger de l'attaque qui a détruit sa ville.", image: "images/genos.png" },
+            { name: "Inuyasha", manga: "Inuyasha", age: 15, details: "Démon mi-humain, cherche à retrouver la perle de Shikon pour devenir pleinement démon.", image: "images/inuyasha.png" },
+            { name: "Kagome Higurashi", manga: "Inuyasha", age: 15, details: "Jeune fille du Japon moderne, réincarnation de Kikyo, et voyage dans le passé.", image: "images/kagome.png" },
+            { name: "Natsu Dragneel", manga: "Fairy Tail", age: 17, details: "Mage de feu de la guilde Fairy Tail, cherche son père adoptif, Igneel.", image: "images/natsu.png" },
+            { name: "Lucy Heartfilia", manga: "Fairy Tail", age: 17, details: "Mage de la guilde Fairy Tail, utilise des clés stellaires pour invoquer des esprits.", image: "images/lucy.png" },
+            { name: "Yusuke Urameshi", manga: "Yu Yu Hakusho", age: 14, details: "Délinquant devenu détective des enfers, avec des pouvoirs spirituels.", image: "images/yusuke.png" },
+            { name: "Kurama", manga: "Yu Yu Hakusho", age: 15, details: "Démon renard, qui possède un corps humain après avoir été vaincu.", image: "images/kurama.png" },
+            { name: "Hiei", manga: "Yu Yu Hakusho", age: 15, details: "Démon de feu avec une personnalité froide, possédant une épée puissante.", image: "images/hiei.png" },
+            { name: "Rukia Kuchiki", manga: "Bleach", age: 15, details: "Shinigami qui accorde ses pouvoirs à Ichigo Kurosaki.", image: "images/rukia.png" },
+            { name: "Ichigo Kurosaki", manga: "Bleach", age: 15, details: "Adolescent avec des pouvoirs de Shinigami, chargé de protéger les vivants et les âmes.", image: "images/ichigo.png" },
+            { name: "Mikasa Ackerman", manga: "Attack on Titan", age: 15, details: "Soldat d'élite avec des compétences exceptionnelles, protectrice d'Eren.", image: "images/mikasa.png" },
+            { name: "Eren Yeager", manga: "Attack on Titan", age: 15, details: "Jeune homme capable de se transformer en Titan, cherche à libérer l'humanité.", image: "images/eren.png" },
+            { name: "Levi Ackerman", manga: "Attack on Titan", age: 30, details: "Capitaine des unités d'élite, extrêmement habile dans le combat contre les Titans.", image: "images/levi.png" },
+            { name: "Bakugo Katsuki", manga: "My Hero Academia", age: 15, details: "Étudiant à l'U.A. avec des pouvoirs explosifs, rival de Midoriya.", image: "images/bakugo.png" },
+            { name: "Guts", manga: "Berserk", age: 24, details: "Guerrier avec une grande épée, cherchant vengeance et sa place dans un monde brutal.", image: "images/guts.png" },
+            { name: "Griffith", manga: "Berserk", age: 24, details: "Ancien camarade de Guts, devenu un leader charismatique et puissant.", image: "images/griffith.png" },
+            { name: "Lelouch Lamperouge", manga: "Code Geass", age: 17, details: "Étudiant avec le pouvoir de géass, cherchant à renverser l'empire Britannia.", image: "images/lelouch.png" },
+            { name: "C.C.", manga: "Code Geass", age: "Inconnu", details: "Mystérieuse femme avec le pouvoir d'immortalité, alliée de Lelouch.", image: "images/c_c.png" },
+            { name: "Kenshin Himura", manga: "Rurouni Kenshin", age: 28, details: "Samouraï errant ayant juré de ne plus tuer, cherche à protéger les innocents.", image: "images/kenshin.png" },
+            { name: "Sanosuke Sagara", manga: "Rurouni Kenshin", age: 25, details: "Ancien membre des Sekihoutai, allié de Kenshin avec une grande force physique.", image: "images/sanosuke.png" },
+            { name: "Mugen", manga: "Samurai Champloo", age: 20, details: "Samouraï errant avec un style de combat unique et un tempérament impétueux.", image: "images/mugen.png" },
+            { name: "Jin", manga: "Samurai Champloo", age: 20, details: "Samouraï calme et réfléchi, expert en techniques de combat traditionnelles.", image: "images/jin.png" },
+            { name: "Fuu", manga: "Samurai Champloo", age: 16, details: "Jeune fille qui recherche un samouraï qui sent le tournesol.", image: "images/fuu.png" },
+            { name: "Rintarou Okabe", manga: "Steins;Gate", age: 18, details: "Scientifique autoproclamé, inventeur d'une machine à voyager dans le temps.", image: "images/rintarou.png" },
+            { name: "Yoh Asakura", manga: "Shaman King", age: 13, details: "Shaman cherchant à devenir le roi des shamans.", image: "images/yoh.png" },
+            { name: "Ren Tao", manga: "Shaman King", age: 13, details: "Shaman rival de Yoh, venant d'une famille prestigieuse.", image: "images/ren.png" },
+            { name: "Shinichi Kudo", manga: "Detective Conan", age: 17, details: "Jeune détective transformé en enfant après avoir été empoisonné.", image: "images/shinichi.png" },
+            { name: "Conan Edogawa", manga: "Detective Conan", age: 7, details: "Nouvelle identité de Shinichi après sa transformation.", image: "images/conan.png" },
+            { name: "Yugi Muto", manga: "Yu-Gi-Oh!", age: 16, details: "Jeune garçon possédant l'âme d'un ancien pharaon et maître des jeux de cartes.", image: "images/yugi.png" },
+            { name: "Seto Kaiba", manga: "Yu-Gi-Oh!", age: 18, details: "Rival de Yugi, PDG de Kaiba Corp et expert en duels de cartes.", image: "images/kaiba.png" },
+            { name: "Eikichi Onizuka", manga: "Great Teacher Onizuka", age: 22, details: "Ancien délinquant devenu professeur, cherchant à enseigner à sa manière unique.", image: "images/onizuka.png" },
+            { name: "Shoyo Hinata", manga: "Haikyuu!!", age: 16, details: "Jeune joueur de volley-ball plein d'énergie avec le rêve de devenir le meilleur.", image: "images/hinata.png" },
+            { name: "Tobio Kageyama", manga: "Haikyuu!!", age: 16, details: "Passeur talentueux de l'équipe de volley-ball, rival et coéquipier de Hinata.", image: "images/kageyama.png" },
+            { name: "Tanjiro Kamado", manga: "Demon Slayer", age: 15, details: "Jeune chasseur de démons déterminé à sauver sa sœur.", image: "images/tanjiro.png" },
+            { name: "Nezuko Kamado", manga: "Demon Slayer", age: 14, details: "Sœur de Tanjiro, transformée en démon mais toujours protectrice de sa famille.", image: "images/nezuko.png" },
+            { name: "Zenitsu Agatsuma", manga: "Demon Slayer", age: 16, details: "Chasseur de démons peureux mais extrêmement talentueux au combat.", image: "images/zenitsu.png" },
+            { name: "Inosuke Hashibira", manga: "Demon Slayer", age: 16, details: "Chasseur de démons sauvage, portant un masque de sanglier.", image: "images/inosuke.png" },
+            { name: "Ken Kaneki", manga: "Tokyo Ghoul", age: 18, details: "Jeune homme transformé en hybride humain-goule après une opération.", image: "images/kaneki.png" },
+            { name: "Touka Kirishima", manga: "Tokyo Ghoul", age: 18, details: "Goule combattante, amie de Ken Kaneki.", image: "images/touka.png" },
+            { name: "Yato", manga: "Noragami", age: "Inconnu", details: "Dieu errant, cherchant à se faire une place parmi les dieux majeurs.", image: "images/yato.png" },
+            { name: "Hiyori Iki", manga: "Noragami", age: 16, details: "Jeune fille humaine qui développe des capacités spirituelles après un accident.", image: "images/hiyori.png" },
+            { name: "Nana Osaki", manga: "Nana", age: 20, details: "Chanteuse punk au passé troublé, cherchant la gloire dans la musique.", image: "images/nana.png" },
+            { name: "Nana Komatsu", manga: "Nana", age: 20, details: "Jeune fille innocente et rêveuse, meilleure amie de Nana Osaki.", image: "images/nana_komatsu.png" },
+            { name: "Kuroko Tetsuya", manga: "Kuroko's Basketball", age: 16, details: "Joueur de basket discret mais extrêmement talentueux, maître des passes.", image: "images/kuroko.png" },
+            { name: "Ryoma Echizen", manga: "Prince of Tennis", age: 12, details: "Jeune prodige du tennis, déterminé à devenir le meilleur joueur du monde.", image: "images/ryoma.png" },
+            { name: "Sebastian Michaelis", manga: "Black Butler", age: "Inconnu", details: "Majordome démoniaque au service de Ciel Phantomhive.", image: "images/sebastian.png" },
+            { name: "Ciel Phantomhive", manga: "Black Butler", age: 13, details: "Jeune comte dirigeant une entreprise de jouets tout en servant la reine.", image: "images/ciel.png" },
+            { name: "Kirito", manga: "Sword Art Online", age: 17, details: "Joueur talentueux piégé dans un jeu vidéo mortel.", image: "images/kirito.png" },
+            { name: "Asuna Yuuki", manga: "Sword Art Online", age: 17, details: "Joueuse courageuse et déterminée, amoureuse de Kirito.", image: "images/asuna.png" },
+            { name: "Edward Wong", manga: "Cowboy Bebop", age: 13, details: "Génie de l'informatique, membre de l'équipage du Bebop.", image: "images/edward_wong.png" },
+            { name: "Nana Shimura", manga: "My Hero Academia", age: "Inconnu", details: "Ancienne détentrice du One For All et mentor de All Might.", image: "images/nana_shimura.png" },
+            { name: "Might Guy", manga: "Naruto", age: 30, details: "Expert en taijutsu, rival de Kakashi et sensei de Rock Lee.", image: "images/might_guy.png" },
+            { name: "Rock Lee", manga: "Naruto", age: 17, details: "Ninja de Konoha spécialisé en taijutsu, élève de Guy.", image: "images/rock_lee.png" },
+            { name: "Kenshiro", manga: "Fist of the North Star", age: 30, details: "Maître du Hokuto Shinken, en quête de justice dans un monde post-apocalyptique.", image: "images/kenshiro.png" },
+            { name: "Shin", manga: "Fist of the North Star", age: 30, details: "Rival de Kenshiro, utilisateur du Nanto Seiken.", image: "images/shin.png" },
+            { name: "Saitou Hajime", manga: "Rurouni Kenshin", age: 35, details: "Ancien capitaine des Shinsengumi, épéiste redoutable et rival de Kenshin.", image: "images/saitou.png" },
+            { name: "Shinya Kogami", manga: "Psycho-Pass", age: 28, details: "Inspecteur déchu, maintenant Enforcer, en quête de justice.", image: "images/kogami.png" },
+            { name: "Akane Tsunemori", manga: "Psycho-Pass", age: 20, details: "Jeune inspectrice idéaliste, luttant pour protéger la justice dans un monde dystopique.", image: "images/akane.png" },
+            { name: "Nobita Nobi", manga: "Doraemon", age: 10, details: "Garçon paresseux et maladroit, aidé par son robot chat Doraemon.", image: "images/nobita.png" },
+            { name: "Doraemon", manga: "Doraemon", age: "Inconnu", details: "Robot chat venu du futur pour aider Nobita à surmonter ses problèmes.", image: "images/doraemon.png" },
+            { name: "Kurisu Makise", manga: "Steins;Gate", age: 18, details: "Jeune scientifique brillante, collaboratrice et amie de Rintarou Okabe.", image: "images/kurisu.png" },
+            { name: "Yuri Plisetsky", manga: "Yuri!!! on Ice", age: 15, details: "Patineur artistique prodige avec un fort caractère.", image: "images/yuri_plisetsky.png" },
+            { name: "Victor Nikiforov", manga: "Yuri!!! on Ice", age: 27, details: "Champion de patinage artistique devenu coach de Yuri Katsuki.", image: "images/victor.png" },
+            { name: "Yuri Katsuki", manga: "Yuri!!! on Ice", age: 23, details: "Patineur artistique cherchant à se réinventer sous la tutelle de Victor.", image: "images/yuri_katsuki.png" },
+            { name: "Shizuo Heiwajima", manga: "Durarara!!", age: 24, details: "Homme au tempérament explosif et à la force surhumaine.", image: "images/shizuo.png" },
+            { name: "Izaya Orihara", manga: "Durarara!!", age: 24, details: "Informateur manipulateur et rival de Shizuo, aimant jouer avec les gens.", image: "images/izaya.png" },
+            { name: "Taiga Aisaka", manga: "Toradora!", age: 17, details: "Lycéenne au fort caractère, surnommée le 'Tigre de Poche'.", image: "images/taiga.png" },
+            { name: "Yoichi Isagi", manga: "Blue Lock", age: 16, details: "Attaquant talentueux, participant au programme Blue Lock pour devenir le meilleur buteur du Japon.", image: "images/yoichi_isagi.png" },
+            { name: "Rin Itoshi", manga: "Blue Lock", age: 16, details: "Frère de Sae Itoshi, un des meilleurs joueurs de Blue Lock avec un incroyable talent pour le football.", image: "images/rin_itoshi.png" },
+            { name: "Meguru Bachira", manga: "Blue Lock", age: 16, details: "Attaquant excentrique avec une créativité unique et un style de jeu imprévisible.", image: "images/meguru_bachira.jpg      ²   ²   " },
+            { name: "Seishiro Nagi", manga: "Blue Lock", age: 16, details: "Génie du football qui ne s'intéressait pas au sport avant de découvrir son immense talent.", image: "images/seishiro_nagi.png" },
+            { name: "Hyoma Chigiri", manga: "Blue Lock", age: 16, details: "Sprinteur rapide et talentueux, joueur de football passionné, mais ayant des doutes à cause d'une ancienne blessure.", image: "images/hyoma_chigiri.png" },
+            { name: "Sae Itoshi", manga: "Blue Lock", age: 18, details: "Frère de Rin, joueur prodige évoluant en Europe, rêve de devenir le meilleur joueur du monde.", image: "images/sae_itoshi.png" },
+            { name: "Anri Teieri", manga: "Blue Lock", age: 22, details: "Officielle de la Fédération Japonaise de Football, elle soutient le projet Blue Lock.", image: "images/anri_teieri.png" },
+            { name: "Ego Jinpachi", manga: "Blue Lock", age: 30, details: "Entraîneur principal du programme Blue Lock, obsédé par la création du meilleur attaquant du monde.", image: "images/ego_jinpachi.png" },
+            { name: "Takt Asahina", manga: "Takt Op. Destiny", age: 20, details: "Chef d'orchestre combattant avec Destiny pour vaincre les D2, créatures destructrices.", image: "images/takt_asahina.jpg" },
+            { name: "Destiny", manga: "Takt Op. Destiny", age: "Inconnu", details: "Musicart formée à partir de la symphonie de Beethoven, partenaire de Takt.", image: "images/destiny.png" },
+            { name: "Mirenka", manga: "Takt Op. Destiny", age: 20, details: "Musicart puissante aux côtés de Takt, utilisant la musique pour combattre.", image: "images/mirenka.png" },
+            { name: "Mirai Kakehashi", manga: "Platinum End", age: 17, details: "Adolescent sauvé du suicide par un ange, contraint de participer à une compétition divine.", image: "images/mirai.png" },
+            { name: "Yuito Sumeragi", manga: "Scarlet Nexus", age: 18, details: "Soldat de la OSF avec des pouvoirs psychokinétiques, luttant contre les Autres.", image: "images/yuito_sumeragi.png" },
+            { name: "Kasane Randall", manga: "Scarlet Nexus", age: 18, details: "Soldate de la OSF dotée de puissantes capacités télékinétiques, adoptée dans une famille influente.", image: "images/kasane_randall.png" },
+            { name: "Yuji Itadori", manga: "Jujutsu Kaisen", age: 15, details: "Lycéen absorbant une relique maudite, devenu exorciste pour combattre les fléaux.", image: "images/yuji_itadori.png" },
+            { name: "Megumi Fushiguro", manga: "Jujutsu Kaisen", age: 16, details: "Exorciste talentueux et calme, spécialisé dans l'invocation de shikigami.", image: "images/megumi_fushiguro.jpg" },
+            { name: "Nobara Kugisaki", manga: "Jujutsu Kaisen", age: 16, details: "Exorciste utilisant des outils maudits, elle a une forte personnalité et beaucoup de détermination.", image: "images/nobara_kugisaki.jpg" },
+            { name: "Satoru Gojo", manga: "Jujutsu Kaisen", age: 28, details: "Professeur à l'école d'exorcisme, considéré comme le plus puissant des exorcistes.", image: "images/satoru_gojo.jpg" },
+            { name: "Rika Orimoto", manga: "Jujutsu Kaisen 0", age: 16, details: "Amie d'enfance de Yuta Okkotsu, devenue un esprit maudit puissant après sa mort.", image: "images/rika_orimoto.png" },
+            { name: "Yuta Okkotsu", manga: "Jujutsu Kaisen 0", age: 16, details: "Exorciste possédant un pouvoir immense grâce à l'esprit maudit de Rika.", image: "images/yuta_okkotsu.jpg" }
+
+];
+
+        function generateCharacters(filteredCharacters) {
+            const characterList = document.getElementById('character-list');
+            characterList.innerHTML = '';
+
+            filteredCharacters.forEach(character => {
+                const characterDiv = document.createElement('div');
+                characterDiv.classList.add('character-item');
+                characterDiv.innerHTML = `
+                    <div class="character-image" style="background-image: url('${character.image}');"></div>
+                    <p class="character-name">${character.name}</p>
+                    <p class="character-manga">${character.manga}</p>
+                `;
+                characterDiv.onclick = () => {
+                    localStorage.setItem('selectedCharacter', JSON.stringify(character));
+                    window.location.href = 'character.html';
+                };
+                characterList.appendChild(characterDiv);
+            });
+        }
+
+        function searchCharacter() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredCharacters = characters.filter(character =>
+                character.name.toLowerCase().includes(query)
+            );
+            generateCharacters(filteredCharacters);
+        }
+
+        // Afficher tous les personnages au chargement initial
+        window.onload = () => generateCharacters(characters);
+    </script>
+</body>
+
+</html>

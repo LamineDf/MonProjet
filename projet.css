@@ -1,0 +1,166 @@
+/* Général */
+body {
+    font-family: Arial, sans-serif;
+    color: #ebeae7;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: url('images/anime-city.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+h1, h2 {
+    color: #ffdf00;
+}
+
+/* Styles de la page d'accueil */
+.home-page {
+    background-color: transparent; /* Laisser l'image de fond s'afficher */
+}
+
+/* Styles de la page des personnages */
+.character-page {
+    color: #ffdf00; /* Couleur dorée pour le texte de la page des personnages */
+}
+
+/* Overlay pour toutes les pages */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.content {
+    padding: 20px;
+}
+
+/* Styles de la liste des personnages */
+.character-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px; /* Espacement entre les icônes */
+    justify-content: center;
+}
+
+.character {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    overflow: hidden; /* Assure que les images ne débordent pas */
+}
+
+.character:hover {
+    transform: scale(0.80);
+}
+
+.character-image {
+    width: 100%;
+    height: 350px;
+    object-fit: contain; /* Assure que l'image entière est visible */
+    background-size: cover;
+    background-position: center center; /* Centre l'image */
+    border-radius: 10px;
+}
+
+/* Styles pour les modales */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    margin: 5% auto;
+    padding: 20px;
+    background-color: #fefefe;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close {
+    color: #0b0808;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal h2 {
+    color: #ffdf00;
+}
+
+/* Styles pour la page de détails du personnage */
+.character-content {
+    background: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+    padding: 30px;
+    border-radius: 15px;
+    width: 60%;
+    max-width: 600px;
+    text-align: left;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.character-content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #ffdf00; /* Couleur dorée pour le nom */
+}
+
+.character-content p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.character-content p:first-of-type {
+    font-weight: bold;
+    color: #ffdf00;
+}
+
+.character-content p:last-of-type {
+    margin-top: 25px;
+    font-size: 16px;
+    text-align: justify;
+    line-height: 1.8;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #ff8c00;
+    color: rgb(159, 27, 27);
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-link:hover {
+    background-color: #090601;
+}

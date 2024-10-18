@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.2">
+    <link rel="stylesheet" href="projet.css">
+    <title>Mangadex</title>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Bienvenue sur le Mangadex</h1>
+        <p>Tout vos personnages mangas préférés en un seul lieu</p>
+    </div>
+
+    <p>Les œuvres</p>
+    <div class="character-list" id="character-list">
+        <!-- Les personnages seront générés ici par JavaScript -->
+    </div>
+
+    <!-- Modales dynamiques pour les personnages -->
+    <div id="modals-container">
+        <!-- Les modales seront générées ici par JavaScript -->
+    </div>
+
+    <script>
+        const characters = [
+            { name: "Monkey D. Luffy", manga: "One Piece", age: 19, details: "Capitaine de l'équipage du Chapeau de paille, rêve de devenir le Roi des Pirates.", image: "images/luffy.jpg" },
+            { name: "Naruto Uzumaki", manga: "Naruto", age: 17, details: "Ninja de Konoha, rêve de devenir Hokage, le plus grand ninja du village.", image: "images/naruto_uzumaki.jpg" },
+            { name: "Son Goku", manga: "Dragon Ball", age: "Inconnu (Saiyan)", details: "Guerrier Saiyan protégeant la Terre, rêve d'être le plus fort.", image: "images/goku.jpg" },
+            { name: "Roronoa Zoro", manga: "One Piece", age: 21, details: "Épéiste de l'équipage de Luffy, utilise trois sabres.", image: "images/zoro.jpg" },
+            { name: "Sasuke Uchiha", manga: "Naruto", age: 17, details: "Dernier membre du clan Uchiha, en quête de vengeance.", image: "images/sasuke.jpg" },
+            { name: "Vegeta", manga: "Dragon Ball", age: "Inconnu (Saiyan)", details: "Prince des Saiyans, rival et ami de Goku.", image: "images/vegeta.jpg" }
+        ];
+
+        function generateCharacters() {
+            const characterList = document.getElementById('character-list');
+            const modalsContainer = document.getElementById('modals-container');
+
+            characters.forEach((character, index) => {
+                const characterDiv = document.createElement('div');
+                characterDiv.classList.add('character');
+                characterDiv.innerHTML = `
+                    <div class="character-image" style="background-image: url('${character.image}');"></div>
+                    <p>${character.name}</p>
+                `;
+                characterDiv.onclick = () => openModal(`modal${index}`);
+                characterList.appendChild(characterDiv);
+
+                const modalDiv = document.createElement('div');
+                modalDiv.classList.add('modal');
+                modalDiv.id = `modal${index}`;
+                modalDiv.innerHTML = `
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('modal${index}')">&times;</span>
+                        <h2>${character.name}</h2>
+                        <p><strong>Manga:</strong> ${character.manga}</p>
+                        <p><strong>Âge:</strong> ${character.age}</p>
+                        <p><strong>Détails:</strong> ${character.details}</p>
+                    </div>
+                `;
+                modalsContainer.appendChild(modalDiv);
+            });
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = "none";
+                }
+            }
+        }
+
+        window.onload = generateCharacters;
+    </script>
+</body>
+
+<footer>
+    <p>©Copyright 2024 par Diouf Lamine. Tous droits réservés.</p>
+</footer>
+
+</html>
